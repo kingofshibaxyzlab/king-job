@@ -111,7 +111,7 @@ export interface ICompletedProject {
   title: string;
   amount: string;
   description: string;
-  completed_at: string; // ISO 8601 string for date
+  completed_at: string;
 }
 
 export interface ISocialLinks {
@@ -130,7 +130,7 @@ export interface IUserResume {
   bio?: string | null;
   image?: string;
   wallet_address: string;
-  date_joined: string; // ISO 8601 string for date
+  date_joined: string;
   social_links: ISocialLinks;
   completed_projects: ICompletedProject[];
   total_income: string;
