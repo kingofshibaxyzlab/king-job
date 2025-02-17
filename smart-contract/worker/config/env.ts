@@ -12,3 +12,5 @@ export const ENV = {
     RPC_URL: process.env.RPC_URL || "https://opbnb-testnet-rpc.bnbchain.org/",
     WORKER_PRIVATE_KEY: process.env.WORKER_PRIVATE_KEY || "",
 };
+
+console.log(ENV);
