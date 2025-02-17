@@ -13,12 +13,12 @@ TARGET_ARCH="${TARGET_ARCH:-amd64}"
 # Project image names
 API_IMAGE_NAME="king_job_api"
 WORKER_IMAGE_NAME="king_job_worker"
-NODE_IMAGE_NAME="king_job_ui"
+UI_IMAGE_NAME="king_job_ui"
 
 # Paths to Docker contexts
 API_PATH="../backend/freelancer_platform"
-WORKER_PATH="../smart-contract"
 UI_PATH="../frontend"
+WORKER_PATH="../smart-contract"
 
 # --------------------------------------------------
 # Function: Build + Push Single-Arch
@@ -69,7 +69,7 @@ docker buildx create --use --name multiarch-builder || docker buildx use multiar
 docker buildx inspect --bootstrap
 
 # For Python and Node, do not use --target (assume their Dockerfiles have a single final stage)
-build_and_push_single_arch "$WORKER_IMAGE_NAME" "$PYTHON_PATH" "$TARGET_ARCH" false
-build_and_push_single_arch "$NODE_IMAGE_NAME"   "$UI_PATH"   "$TARGET_ARCH" false
+build_and_push_single_arch "$UI_IMAGE_NAME"   "$UI_PATH"   "$TARGET_ARCH" false
 build_and_push_single_arch "$API_IMAGE_NAME" "$API_PATH" "$TARGET_ARCH" false
+build_and_push_single_arch "$WORKER_IMAGE_NAME" "$WORKER_PATH" "$TARGET_ARCH" false
 echo "All images for arch=${TARGET_ARCH} built and pushed successfully."
