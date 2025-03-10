@@ -100,7 +100,10 @@ const Chat: React.FC<ChatProps> = ({
   const { mutate: uploadFile } = useUploadFile();
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
+    }
   };
 
   useEffect(() => {
@@ -189,7 +192,8 @@ const Chat: React.FC<ChatProps> = ({
               rel="noopener noreferrer"
               className="text-white underline"
             >
-              {fileName}
+              {fileName} {"  "}
+              <b className="text-3xl">🗎</b>
             </a>
           );
         }
@@ -244,7 +248,7 @@ const Chat: React.FC<ChatProps> = ({
                   className={`max-w-[75%] p-3 shadow-sm ${
                     isCurrentUser
                       ? "bg-blue-500 text-white rounded-l-lg rounded-br-lg"
-                      : "bg-gray-100 text-gray-800 rounded-r-lg rounded-bl-lg"
+                      : "bg-green-500 text-white rounded-r-lg rounded-bl-lg"
                   }`}
                 >
                   <div className="flex items-center gap-2 mb-1">
