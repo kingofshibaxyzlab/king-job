@@ -16,7 +16,7 @@ interface AuthState {
 
 export const useAuthStore = create<AuthState>((set, get) => ({
   isAuthenticated: !!localStorage.getItem(keyValue.accessToken),
-  user: JSON.parse(localStorage.getItem(keyValue.user) || ""),
+  user: JSON.parse(localStorage.getItem(keyValue.user) || "{}"),
   login: async (response: IResponseAuthLogin) => {
     try {
       localStorage.setItem(keyValue.accessToken, response.token);
