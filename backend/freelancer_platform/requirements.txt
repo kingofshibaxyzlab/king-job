@@ -1,7 +1,7 @@
 annotated-types==0.7.0
 asgiref==3.8.1
-boto3==1.37.9
-botocore==1.37.9
+boto3==1.36.26
+botocore==1.36.26
 certifi==2024.8.30
 charset-normalizer==3.4.0
 Django==4.2.17
@@ -20,11 +20,11 @@ PyJWT==2.10.1
 python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
 requests==2.32.3
-s3transfer==0.11.4
+s3transfer==0.11.2
 six==1.17.0
 solc==0.0.0a0
 solc-select==1.0.4
 sqlparse==0.5.2
 typing_extensions==4.12.2
 tzdata==2024.2
-urllib3==2.2.3
+urllib3==1.26.16
