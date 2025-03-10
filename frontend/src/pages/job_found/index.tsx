@@ -10,7 +10,8 @@ import { useAuthStore } from "@/services/stores/useAuthStore";
 import { getStatusBadgeClass } from "@/utils/colors";
 import { formatDistanceToNow } from "date-fns";
 import { formatEther } from "ethers";
-import React from "react";
+import React, { useState } from "react";
+import { FiMessageSquare, FiX } from "react-icons/fi";
 import { useParams } from "react-router-dom";
 import TransactionSequence from "../job_details/components/TransactionSequence";
 
@@ -20,9 +21,7 @@ const JobFoundPage: React.FC = () => {
     data: job,
     isLoading: isLoadingJob,
     error: jobError,
-  } = useJobDetails({
-    variables: { id: Number(id) },
-  });
+  } = useJobDetails({ variables: { id: Number(id) } });
 
   const { getWalletAddress } = useAuthStore();
   const walletAddress = getWalletAddress();
@@ -41,7 +40,6 @@ const JobFoundPage: React.FC = () => {
 
   const handleSendMessage = (message: string) => {
     if (!job?.client?.wallet_address) return;
-
     sendMessage(
       {
         jobId: Number(id),
@@ -59,11 +57,15 @@ const JobFoundPage: React.FC = () => {
     );
   };
 
+  const [isChatOpen, setIsChatOpen] = useState(false);
+
   if (isLoadingJob) {
     return (
-      <div className="bg-gray-50 min-h-screen">
+      <div className="bg-gray-50 min-h-screen flex flex-col">
         <NavigationBar />
-        <div className="text-center mt-20">Loading job details...</div>
+        <div className="flex-grow flex items-center justify-center">
+          <p className="text-center mt-20">Loading job details...</p>
+        </div>
         <Footer />
       </div>
     );
@@ -71,10 +73,12 @@ const JobFoundPage: React.FC = () => {
 
   if (jobError || !job) {
     return (
-      <div className="bg-gray-50 min-h-screen">
+      <div className="bg-gray-50 min-h-screen flex flex-col">
         <NavigationBar />
-        <div className="text-center mt-20">
-          Job not found or an error occurred.
+        <div className="flex-grow flex items-center justify-center">
+          <p className="text-center mt-20">
+            Job not found or an error occurred.
+          </p>
         </div>
         <Footer />
       </div>
@@ -82,16 +86,16 @@ const JobFoundPage: React.FC = () => {
   }
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="bg-gray-50 min-h-screen flex flex-col">
       <NavigationBar />
-      <main className="container mx-auto py-10 flex space-x-8">
+      <main className="container mx-auto py-10 px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row md:space-x-8 space-y-8 md:space-y-0 min-h-[90vh]">
         {/* Left Panel: Job Info */}
-        <div className="w-1/2 bg-white rounded-xl p-8 shadow-md">
-          <h2 className="text-5xl font-bold text-blue-800 mb-4">{job.title}</h2>
-          <p className="text-lg text-gray-600 mb-4">
+        <div className="w-full md:w-1/2 bg-white rounded-xl p-8 shadow-md">
+          <h2 className="text-4xl font-bold text-blue-800 mb-4">{job.title}</h2>
+          <b className="text-sm text-gray-600 mb-4">
             Posted by: {job.client?.username || "Unknown"}
-          </p>
-          <p className="text-sm text-gray-500 mb-6">
+          </b>
+          <p className="text-sm text-gray-500 mb-4">
             Created{" "}
             {formatDistanceToNow(new Date(job.created_at), { addSuffix: true })}
           </p>
@@ -110,19 +114,19 @@ const JobFoundPage: React.FC = () => {
             />
           )}
           <div className="mb-6">
-            <h4 className="text-2xl font-bold text-blue-700">Amount</h4>
+            <h4 className="text-xl font-bold text-blue-700">Amount</h4>
             <p className="text-lg text-gray-600 mt-2">
               {formatEther(job.amount.toString())} BNB
             </p>
           </div>
           <div className="mb-6">
-            <h4 className="text-2xl font-bold text-blue-700">Job Type</h4>
+            <h4 className="text-xl font-bold text-blue-700">Job Type</h4>
             <p className="text-lg text-gray-600 mt-2">
               {job.job_type?.name || "Unknown"}
             </p>
           </div>
           <div>
-            <h4 className="text-2xl font-bold text-blue-700">Status</h4>
+            <h4 className="text-xl font-bold text-blue-700">Status</h4>
             <span
               className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusBadgeClass(
                 job.status
@@ -131,9 +135,8 @@ const JobFoundPage: React.FC = () => {
               {job.status}
             </span>
           </div>
-
           <div className="my-6">
-            <h2 className="text-3xl font-bold text-blue-800 mb-3">
+            <h2 className="text-xl font-bold text-blue-800 mb-3">
               Transaction History
             </h2>
             <TransactionSequence
@@ -144,19 +147,51 @@ const JobFoundPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Right Panel: Chat */}
-        <div className="w-1/2 bg-white rounded-xl p-8 shadow-md flex flex-col">
-          <div className="w-full sticky top-36 self-start">
+        {/* Right Panel: Chat for Desktop */}
+        <div className="hidden md:block w-full md:w-1/2 bg-white rounded-xl p-8 shadow-md">
+          <Chat
+            messages={chatMessages || []}
+            currentUserAddress={walletAddress}
+            onSendMessage={handleSendMessage}
+            isLoading={isSendingMessage}
+          />
+        </div>
+      </main>
+
+      {/* Mobile Chat Popup Button */}
+      <div className="md:hidden fixed bottom-4 right-4 z-30">
+        <button
+          onClick={() => setIsChatOpen(true)}
+          className="bg-blue-600 text-white p-4 rounded-full shadow-lg flex items-center justify-center"
+        >
+          <FiMessageSquare className="w-6 h-6" />
+        </button>
+      </div>
+
+      {/* Mobile Chat Modal */}
+      {isChatOpen && (
+        <div className="fixed inset-0 z-40 flex items-center justify-center bg-black bg-opacity-50 mt-16">
+          <div className="bg-white w-11/12 max-w-md rounded-lg p-2">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-bold">Chat</h2>
+              <button
+                onClick={() => setIsChatOpen(false)}
+                className="text-gray-600 font-semibold flex items-center"
+              >
+                <FiX className="w-6 h-6" />
+              </button>
+            </div>
             <Chat
               messages={chatMessages || []}
               currentUserAddress={walletAddress}
               onSendMessage={handleSendMessage}
               isLoading={isSendingMessage}
-              className="flex-grow"
             />
           </div>
         </div>
-      </main>
+      )}
+
+      <Footer />
     </div>
   );
 };

@@ -95,13 +95,13 @@ const JobDetailsPage: React.FC = () => {
 
         {/* Job Details */}
         <section className="bg-white rounded-lg p-8 shadow-md mb-16">
-          <h2 className="text-3xl font-bold text-blue-800 mb-6">Description</h2>
+          <h2 className="text-xl font-bold text-blue-800 mb-6">Description</h2>
           <p className="text-lg text-gray-700 leading-relaxed mb-8">
             {job.description}
           </p>
           {job.info && (
             <div className="mb-6">
-              <h2 className="text-3xl font-bold text-blue-800 ">Details</h2>
+              <h2 className="text-xl font-bold text-blue-800 ">Details</h2>
               <div
                 className="prose max-w-none mt-3"
                 dangerouslySetInnerHTML={{ __html: job.info }}
@@ -109,7 +109,7 @@ const JobDetailsPage: React.FC = () => {
             </div>
           )}
           <div className="my-6">
-            <h2 className="text-3xl font-bold text-blue-800 mb-3">
+            <h2 className="text-xl font-bold text-blue-800 mb-3">
               Transaction History
             </h2>
             <TransactionSequence

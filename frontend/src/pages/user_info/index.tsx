@@ -7,50 +7,58 @@ import UserInfoTab from "./components/UserInfoTab";
 const UserInfoPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState("userInfo");
 
+  // Define tabs
+  const tabs = [
+    { key: "userInfo", label: "User Info" },
+    { key: "myJob", label: "My Jobs" },
+    { key: "findJob", label: "Find Work" },
+  ];
+
+  // Render content based on active tab
+  const renderContent = () => {
+    switch (activeTab) {
+      case "userInfo":
+        return <UserInfoTab />;
+      case "myJob":
+        return <MyJobTab />;
+      case "findJob":
+        return <FindJobTab />;
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className="bg-gradient-to-b from-blue-50 to-gray-50 min-h-screen">
       <NavigationBar />
-      <div className="container mx-auto max-w-8xl p-6 mt-10">
-        <div className="flex">
-          {/* Left Sidebar */}
-          <div className="max-w-xl bg-white shadow-lg rounded-lg p-4">
-            <button
-              className={`w-full text-left px-4 py-3 rounded-lg mb-2 font-semibold focus:outline-none ${
-                activeTab === "userInfo"
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-200 text-gray-700"
-              }`}
-              onClick={() => setActiveTab("userInfo")}
-            >
-              User Info
-            </button>
-            <button
-              className={`w-full text-left px-4 py-3 rounded-lg mb-2 font-semibold focus:outline-none ${
-                activeTab === "myJob"
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-200 text-gray-700"
-              }`}
-              onClick={() => setActiveTab("myJob")}
-            >
-              My Jobs
-            </button>
-            <button
-              className={`w-full text-left px-4 py-3 rounded-lg font-semibold focus:outline-none ${
-                activeTab === "findJob"
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-200 text-gray-700"
-              }`}
-              onClick={() => setActiveTab("findJob")}
-            >
-              Find Work
-            </button>
+      <div className="container mx-auto max-w-6xl p-6 mt-10">
+        <div className="flex flex-col md:flex-row">
+          {/* Left Sidebar / Tab Menu */}
+          <div className="w-full md:w-1/4 mb-4 md:mb-0">
+            <div className="sticky top-40 z-20">
+              <div className="overflow-x-auto md:overflow-visible whitespace-nowrap">
+                <div className="flex flex-row md:flex-col">
+                  {tabs.map((tab) => (
+                    <button
+                      key={tab.key}
+                      onClick={() => setActiveTab(tab.key)}
+                      className={`px-4 py-3 rounded-lg mx-1 md:mx-0 md:mb-2 font-semibold transition-colors duration-300 text-center w-full md:w-auto ${
+                        activeTab === tab.key
+                          ? "bg-blue-600 text-white"
+                          : "bg-gray-200 text-gray-700"
+                      }`}
+                    >
+                      {tab.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Right Content Area */}
-          <div className="w-3/4 ml-6">
-            {activeTab === "userInfo" && <UserInfoTab />}
-            {activeTab === "myJob" && <MyJobTab />}
-            {activeTab === "findJob" && <FindJobTab />}
+          <div className="w-full md:w-3/4 md:ml-6 flex justify-center">
+            <div className="w-full">{renderContent()}</div>
           </div>
         </div>
       </div>

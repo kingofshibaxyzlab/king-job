@@ -53,7 +53,7 @@ const config: HardhatUserConfig = {
                 network: "opbnb_testnet",
                 chainId: 5611,
                 urls: {
-                    apiURL: `https://open-platform.nodereal.io/${process.env.YOUR_NODEREAL_API_KEY}/op-bnb-testnet/contract/`,
+                    apiURL: `https://open-platform.nodereal.io/${process.env.NODEREAL_API_KEY}/op-bnb-testnet/contract/`,
                     browserURL: "https://testnet.opbnbscan.com",
                 },
             },

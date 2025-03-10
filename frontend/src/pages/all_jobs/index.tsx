@@ -71,7 +71,7 @@ const AllJobsPage: React.FC = () => {
         <div className="rounded-xl flex flex-col">
           <div className="w-full sticky top-36 self-start">
             <aside className="w-full max-w-xs bg-white p-6 rounded-lg shadow-md self-start">
-              <h3 className="text-2xl font-bold text-blue-800 mb-4">Filters</h3>
+              <h3 className="text-xl font-bold text-blue-800 mb-4">Filters</h3>
 
               {/* Search Filter */}
               <div className="mb-4">
@@ -193,7 +193,7 @@ const AllJobsPage: React.FC = () => {
                     className="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition duration-300 flex flex-col md:flex-row gap-6 items-start md:items-center"
                   >
                     <div className="flex-1">
-                      <h4 className="text-2xl font-bold text-blue-700">
+                      <h4 className="text-xl font-bold text-blue-700">
                         {job.title}
                       </h4>
                       <div className="mt-2 flex flex-wrap gap-2 items-center">

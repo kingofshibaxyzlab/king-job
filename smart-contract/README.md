@@ -1,4 +1,4 @@
-# King Job Smart Contract
+# ShibaWork 🦊 Smart Contract
 
 ## Project Setup
 

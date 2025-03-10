@@ -23,8 +23,8 @@ const NavigationBar = () => {
 
   const userImage = user?.image || "https://placehold.co/50x50";
   const walletAddress = getWalletAddress();
-  const handleUserIconClick = () => navigate(UrlMapping.user_info);
 
+  const handleUserIconClick = () => navigate(UrlMapping.user_info);
   const handleDisconnect = () => {
     disconnect();
     logout();
@@ -34,11 +34,8 @@ const NavigationBar = () => {
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 100);
-
     window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
@@ -53,10 +50,8 @@ const NavigationBar = () => {
               alert("Error setting authentication.");
             }
           },
-          onError: (error: any) => {
-            alert(
-              `Login failed: ${error.response?.data?.message || error.message}`
-            );
+          onError: (error) => {
+            alert(`Login failed: ${error.message}`);
           },
         }
       );
@@ -67,23 +62,38 @@ const NavigationBar = () => {
 
   return (
     <header
-      className={`bg-gradient-to-r from-blue-500 to-blue-500 shadow-md fixed w-full top-0 z-50 overflow-hidden${
-        isScrolled ? "scrolled" : ""
+      className={`bg-gradient-to-r from-indigo-600 to-blue-500 shadow-lg fixed w-full top-0 z-50 overflow-hidden${
+        isScrolled ? " scrolled" : ""
       }`}
       style={{ position: "sticky", top: 0 }}
     >
-      <div className="container mx-auto flex flex-col lg:flex-row justify-between items-center py-4 px-6">
-        {/* Logo */}
-        <Link to="/" className="flex items-center space-x-2">
-          <img src={Logo} alt="Logo" className="w-12 h-12 rounded-full" />
-          <h1 className="text-2xl font-bold text-white">King Job</h1>
-        </Link>
+      <div className="container mx-auto flex flex-col lg:flex-row justify-between items-center py-4 px-6 min-w-fit">
+        {/* Logo and Mobile Menu Toggle */}
+        <div className="flex flex-row justify-between items-center w-full md:w-auto">
+          <Link to="/" className="flex items-center gap-3">
+            <img
+              src={Logo}
+              alt="Logo"
+              className="w-12 h-12 rounded-full shadow-lg"
+            />
+            <h1 className="text-xl font-bold text-white tracking-wide">
+              ShibaWork 🦊
+            </h1>
+          </Link>
+          <div className="lg:hidden ml-auto" onClick={toggleMenu}>
+            {isMenuOpen ? (
+              <AiOutlineClose className="text-white w-8 h-8 cursor-pointer transition-transform duration-300 transform hover:scale-110" />
+            ) : (
+              <AiOutlineMenu className="text-white w-8 h-8 cursor-pointer transition-transform duration-300 transform hover:scale-110" />
+            )}
+          </div>
+        </div>
 
         {/* Navigation Links */}
         <nav
           className={`${
             isMenuOpen ? "flex flex-col" : "hidden lg:flex"
-          } lg:flex-row lg:space-x-6 items-center w-full lg:w-auto`}
+          } lg:flex-row lg:space-x-6 items-center w-full lg:w-auto min-w-fit`}
         >
           {[
             { label: "Home", path: UrlMapping.home },
@@ -104,35 +114,37 @@ const NavigationBar = () => {
         {/* Authenticated User or Connect Wallet */}
         <div
           className={`${
-            isMenuOpen ? "flex flex-col mt-4 lg:mt-0" : "hidden lg:flex"
-          } items-center lg:space-x-6`}
+            isMenuOpen
+              ? "flex flex-col mt-4 space-y-4 lg:mt-0"
+              : "hidden lg:flex lg:space-x-6"
+          } items-center`}
         >
           {isConnected ? (
-            <div className="flex items-center space-x-4">
+            <div className="flex flex-col lg:flex-row items-center space-y-4 lg:space-y-0 lg:space-x-4 w-full">
               <Link
                 to={UrlMapping.create || "#"}
-                className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-5 rounded-full font-medium shadow-lg transition duration-300"
+                className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-full font-medium shadow-lg transition duration-300 w-full lg:w-auto text-center min-w-fit"
               >
-                Create job
+                Create Job
               </Link>
 
               <div
-                className="flex items-center cursor-pointer"
+                className="flex items-center justify-center space-x-2 w-full lg:w-auto cursor-pointer"
                 onClick={handleUserIconClick}
               >
                 <img
                   src={userImage}
                   alt="User Icon"
-                  className="w-12 h-12 rounded-full border-2 border-white shadow-md"
+                  className="w-12 h-12 rounded-full border-2 border-white shadow-lg"
                 />
-                <span className="text-white font-medium ml-2 hidden sm:inline-block">
+                <span className="text-white font-medium">
                   {shortenAddress(walletAddress) || "N/A"}
                 </span>
               </div>
 
               <button
                 onClick={handleDisconnect}
-                className="bg-red-600 text-white py-2 px-5 rounded-full font-medium shadow-md hover:bg-red-700 transition duration-300"
+                className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-full font-medium hover:shadow-xl transition duration-300 w-full lg:w-auto text-center min-w-fit"
               >
                 Disconnect
               </button>
@@ -140,19 +152,10 @@ const NavigationBar = () => {
           ) : (
             <button
               onClick={openConnectModal}
-              className="bg-yellow-400 text-blue-800 py-2 px-5 rounded-full font-medium shadow-md hover:bg-yellow-500 transition duration-300"
+              className="bg-yellow-400 text-blue-800 py-2 px-5 rounded-full font-medium shadow-lg hover:bg-yellow-500 transition duration-300 w-full lg:w-auto text-center"
             >
               Connect Wallet
             </button>
-          )}
-        </div>
-
-        {/* Mobile Menu Toggle */}
-        <div className="lg:hidden mt-4" onClick={toggleMenu}>
-          {isMenuOpen ? (
-            <AiOutlineClose className="text-white w-8 h-8 cursor-pointer" />
-          ) : (
-            <AiOutlineMenu className="text-white w-8 h-8 cursor-pointer" />
           )}
         </div>
       </div>

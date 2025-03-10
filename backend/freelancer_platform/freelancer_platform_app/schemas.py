@@ -117,3 +117,22 @@ class PublicUserResumeSchema(Schema):
     social_links: dict
     completed_projects: List[CompletedProjectSchema]
     total_income: float
+
+class PresignRequestSchema(Schema):
+    key: str
+
+class PresignedPostSchema(Schema):
+    url: str
+    fields: dict
+
+class PresignedGetURLSchema(Schema):
+    url: str
+
+class ChatMessageSchema(Schema):
+    id: int
+    sender_address: str
+    sender_name: str
+    receiver_address: str
+    receiver_name: str
+    content: str
+    timestamp: str

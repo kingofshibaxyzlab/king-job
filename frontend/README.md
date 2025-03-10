@@ -1,8 +1,8 @@
-# King Job Platform - Frontend
+# ShibaWork 🦊 Platform - Frontend
 
 ## Project Overview
 
-This is the React.js frontend for the King Job platform, providing a user-friendly interface for creating, managing, and collaborating on blockchain-powered job postings.
+This is the React.js frontend for the ShibaWork 🦊 platform, providing a user-friendly interface for creating, managing, and collaborating on blockchain-powered job postings.
 
 ## Prerequisites
 

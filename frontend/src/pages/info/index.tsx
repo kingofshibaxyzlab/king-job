@@ -8,20 +8,20 @@ const InfoPage: React.FC = () => {
 
       <main className="container mx-auto py-16 px-6 md:px-20">
         <h2 className="text-5xl font-bold text-blue-800 mb-12 text-center">
-          About King Job
+          About ShibaWork 🦊
         </h2>
 
         <section className="bg-white p-10 rounded-xl shadow-lg mb-16">
-          <h3 className="text-3xl font-bold text-blue-700 mb-6">Our Mission</h3>
+          <h3 className="text-xl font-bold text-blue-700 mb-6">Our Mission</h3>
           <p className="text-lg text-gray-700 leading-relaxed mb-10">
-            At King Job, our mission is to connect clients and freelancers
+            At ShibaWork 🦊, our mission is to connect clients and freelancers
             seamlessly through the power of Web3 technology. We aim to provide a
             secure, transparent, and efficient platform for job creation and
             collaboration, empowering both clients and freelancers to achieve
             their goals.
           </p>
 
-          <h3 className="text-3xl font-bold text-blue-700 mb-6">Our Vision</h3>
+          <h3 className="text-xl font-bold text-blue-700 mb-6">Our Vision</h3>
           <p className="text-lg text-gray-700 leading-relaxed mb-10">
             We envision a future where freelancers and clients collaborate
             globally without barriers. Through blockchain technology, we strive
@@ -29,7 +29,7 @@ const InfoPage: React.FC = () => {
             accessible to everyone, and payments are secure and instantaneous.
           </p>
 
-          <h3 className="text-3xl font-bold text-blue-700 mb-6">Why Web3?</h3>
+          <h3 className="text-xl font-bold text-blue-700 mb-6">Why Web3?</h3>
           <p className="text-lg text-gray-700 leading-relaxed mb-10">
             Web3 technology underpins our platform, enabling:
           </p>
@@ -48,11 +48,11 @@ const InfoPage: React.FC = () => {
             </li>
           </ul>
 
-          <h3 className="text-3xl font-bold text-blue-700 mb-6">
-            How King Job Works
+          <h3 className="text-xl font-bold text-blue-700 mb-6">
+            How ShibaWork 🦊 Works
           </h3>
           <p className="text-lg text-gray-700 leading-relaxed mb-10">
-            King Job facilitates seamless collaboration between clients and
+            ShibaWork 🦊 facilitates seamless collaboration between clients and
             freelancers:
           </p>
           <ul className="list-disc list-inside text-lg text-gray-700 mb-10">
@@ -71,8 +71,8 @@ const InfoPage: React.FC = () => {
             </li>
           </ul>
 
-          <h3 className="text-3xl font-bold text-blue-700 mb-6">
-            Why Choose King Job?
+          <h3 className="text-xl font-bold text-blue-700 mb-6">
+            Why Choose ShibaWork 🦊?
           </h3>
           <ul className="list-disc list-inside text-lg text-gray-700 mb-10">
             <li>
@@ -84,17 +84,18 @@ const InfoPage: React.FC = () => {
               freelancers worldwide without geographical limitations.
             </li>
             <li>
-              <strong>Innovation:</strong> King Job combines modern technology
-              with a user-friendly interface to create a streamlined experience.
+              <strong>Innovation:</strong> ShibaWork 🦊 combines modern
+              technology with a user-friendly interface to create a streamlined
+              experience.
             </li>
           </ul>
 
-          <h3 className="text-3xl font-bold text-blue-700 mb-6">
+          <h3 className="text-xl font-bold text-blue-700 mb-6">
             Future Development
           </h3>
           <p className="text-lg text-gray-700 leading-relaxed mb-10">
-            We are continuously improving King Job to provide even more value to
-            our users. Our plans include:
+            We are continuously improving ShibaWork 🦊 to provide even more
+            value to our users. Our plans include:
           </p>
           <ul className="list-disc list-inside text-lg text-gray-700">
             <li>

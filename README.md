@@ -1,13 +1,13 @@
-# King Job Platform
+# ShibaWork 🦊 Platform
 
 ## Live Website
 [https://king-job.kingofshiba.xyz/](https://king-job.kingofshiba.xyz/)
 
-**Note**: Visit the live platform to explore the full functionality of the King Job platform.
+**Note**: Visit the live platform to explore the full functionality of the ShibaWork 🦊 platform.
 
 ## Project Overview
 
-King Job is a Web3-based platform that connects clients and freelancers. Clients can create jobs, push them to the blockchain, and collaborate with freelancers. The platform ensures transparent and secure job management using blockchain technology.
+ShibaWork 🦊 is a Web3-based platform that connects clients and freelancers. Clients can create jobs, push them to the blockchain, and collaborate with freelancers. The platform ensures transparent and secure job management using blockchain technology.
 
 ## Tech Stack
 

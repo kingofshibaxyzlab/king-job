@@ -1,8 +1,8 @@
-# King Job Platform - Backend
+# ShibaWork 🦊 Platform - Backend
 
 ## Project Overview
 
-Django-powered backend for the King Job platform, providing robust API services, job management, and blockchain interaction.
+Django-powered backend for the ShibaWork 🦊 platform, providing robust API services, job management, and blockchain interaction.
 
 ## System Requirements
 

@@ -56,7 +56,7 @@ const connectors = connectorsForWallets(
     },
   ],
   {
-    appName: "King Job",
+    appName: "ShibaWork 🦊",
     projectId: "42d6bd19b268a1fc408fbeeaa41220c1",
   }
 );

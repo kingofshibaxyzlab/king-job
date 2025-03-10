@@ -96,3 +96,11 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # CORS Configuration
 CORS_ALLOW_ALL_ORIGINS = os.environ.get("CORS_ALLOW_ALL_ORIGINS", "True").lower() == "true"
+
+
+# S3 configuration
+S3_ACCESS_KEY = os.environ.get("S3_ACCESS_KEY", "")
+S3_SECRET_KEY = os.environ.get("S3_SECRET_KEY", "")
+S3_ENDPOINT_URL = os.environ.get("S3_ENDPOINT_URL", "")
+S3_BUCKET_NAME = os.environ.get("S3_BUCKET_NAME", "")
+S3_REGION_NAME = os.environ.get("S3_REGION_NAME", "us-east-1")

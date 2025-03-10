@@ -11,13 +11,17 @@ const ResumePage: React.FC = () => {
     data: userInfo,
     isLoading,
     error,
-  } = useUserResume({ variables: { walletAddress: walletAddress || "" } });
+  } = useUserResume({
+    variables: { walletAddress: walletAddress || "" },
+  });
 
   if (isLoading) {
     return (
-      <div className="bg-gray-50 min-h-screen">
+      <div className="bg-gray-50 min-h-screen flex flex-col">
         <NavigationBar />
-        <div className="text-center mt-20 text-gray-600">Loading resume...</div>
+        <div className="flex-grow flex items-center justify-center">
+          <p className="text-center text-gray-600 text-lg">Loading resume...</p>
+        </div>
         <Footer />
       </div>
     );
@@ -25,10 +29,12 @@ const ResumePage: React.FC = () => {
 
   if (error || !userInfo) {
     return (
-      <div className="bg-gray-50 min-h-screen">
+      <div className="bg-gray-50 min-h-screen flex flex-col">
         <NavigationBar />
-        <div className="text-center mt-20 text-red-600">
-          Failed to load resume. Please try again.
+        <div className="flex-grow flex items-center justify-center">
+          <p className="text-center text-red-600 text-lg">
+            Failed to load resume. Please try again.
+          </p>
         </div>
         <Footer />
       </div>
@@ -36,36 +42,36 @@ const ResumePage: React.FC = () => {
   }
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="bg-gray-50 min-h-screen flex flex-col">
       <NavigationBar />
-      <main className="max-w-[1000px] mx-auto py-16 px-6 md:px-20 bg-white shadow-lg rounded-lg my-10">
+      <main className="max-w-4xl w-full mx-auto py-16 px-4 sm:px-6 lg:px-8 bg-white shadow-lg rounded-lg my-10">
         {/* Header Section */}
-        <section className="flex items-center gap-6 mb-12">
+        <section className="flex flex-col sm:flex-row items-center gap-6 mb-12">
           <img
             src={userInfo.image || "https://placehold.co/150x150"}
             alt="User Avatar"
-            className="w-24 h-24 rounded-full border-2 border-blue-500"
+            className="w-24 h-24 sm:w-32 sm:h-32 rounded-full border-2 border-blue-500"
           />
-          <div>
-            <h1 className="text-4xl font-bold text-gray-800">
+          <div className="text-center sm:text-left">
+            <h1 className="text-3xl sm:text-4xl font-bold text-gray-800">
               {userInfo.name || "Anonymous"}
             </h1>
             <p className="text-gray-500">{userInfo.username}</p>
-            <p className="text-blue-500">{userInfo.wallet_address}</p>
+            <p className="text-blue-500 break-all">{userInfo.wallet_address}</p>
           </div>
         </section>
 
         {/* Bio Section */}
         <section className="mb-8">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4">Bio</h2>
-          <p className="text-lg text-gray-600">
+          <h2 className="text-xl font-semibold text-gray-800 mb-4">Bio</h2>
+          <p className="text-base text-gray-600">
             {userInfo.bio || "No bio available"}
           </p>
         </section>
 
         {/* Social Links */}
         <section className="mb-8">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+          <h2 className="text-xl font-semibold text-gray-800 mb-4">
             Social Links
           </h2>
           <ul className="flex flex-wrap gap-4">
@@ -77,7 +83,7 @@ const ResumePage: React.FC = () => {
                       href={value}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-600 hover:underline"
+                      className="text-blue-600 hover:underline text-sm"
                     >
                       {key.charAt(0).toUpperCase() + key.slice(1)}
                     </a>
@@ -89,38 +95,42 @@ const ResumePage: React.FC = () => {
 
         {/* Completed Projects */}
         <section className="mb-8">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+          <h2 className="text-xl font-semibold text-gray-800 mb-4">
             Completed Projects
           </h2>
-          <ul className="space-y-6">
-            {userInfo.completed_projects.map((project) => (
-              <li
-                key={project.id}
-                className="p-6 border rounded-lg shadow-sm bg-gray-50"
-              >
-                <h3 className="text-xl font-semibold text-blue-800">
-                  {project.title}
-                </h3>
-                <p className="text-gray-600 mt-2">{project.description}</p>
-                <div className="mt-4 text-gray-500">
-                  <span className="font-bold">Amount Earned:</span>{" "}
-                  {formatEther(project.amount.toString())} BNB
-                </div>
-                <div className="text-gray-400 text-sm">
-                  Completed At:{" "}
-                  {new Date(project.completed_at).toLocaleDateString()}
-                </div>
-              </li>
-            ))}
-          </ul>
+          {userInfo.completed_projects.length > 0 ? (
+            <ul className="space-y-6">
+              {userInfo.completed_projects.map((project) => (
+                <li
+                  key={project.id}
+                  className="p-6 border rounded-lg shadow-sm bg-gray-50"
+                >
+                  <h3 className="text-xl font-semibold text-blue-800">
+                    {project.title}
+                  </h3>
+                  <p className="text-gray-600 mt-2">{project.description}</p>
+                  <div className="mt-4 text-gray-500">
+                    <span className="font-bold">Amount Earned:</span>{" "}
+                    {formatEther(project.amount.toString())} BNB
+                  </div>
+                  <div className="text-gray-400 text-sm mt-1">
+                    Completed At:{" "}
+                    {new Date(project.completed_at).toLocaleDateString()}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-gray-600">No completed projects available.</p>
+          )}
         </section>
 
         {/* Total Income */}
         <section className="mb-8">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+          <h2 className="text-xl font-semibold text-gray-800 mb-4">
             Total Income
           </h2>
-          <p className="text-green-600 font-bold text-3xl">
+          <p className="text-green-600 font-bold text-xl">
             {formatEther(userInfo.total_income.toString())} BNB
           </p>
         </section>

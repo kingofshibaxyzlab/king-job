@@ -61,7 +61,7 @@ const HomePage: React.FC = () => {
       {/* Top Freelancers */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-5 lg:px-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 text-center mb-10">
+          <h2 className="text-xl md:text-4xl font-bold text-gray-800 text-center mb-10">
             Our Top Freelancers
           </h2>
           {isFreelancersLoading ? (
@@ -85,7 +85,7 @@ const HomePage: React.FC = () => {
                   }
                 >
                   {/* Avatar */}
-                  <div className="w-16 h-16 rounded-full bg-purple-500 text-white flex items-center justify-center font-bold text-2xl mr-5 shadow-md">
+                  <div className="w-16 h-16 rounded-full bg-purple-500 text-white flex items-center justify-center font-bold text-xl mr-5 shadow-md">
                     {freelancer.name?.charAt(0) ||
                       freelancer.username?.charAt(0) ||
                       "F"}
@@ -109,7 +109,7 @@ const HomePage: React.FC = () => {
       {/* Newest Jobs */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-5 lg:px-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 text-center mb-10">
+          <h2 className="text-xl md:text-4xl font-bold text-gray-800 text-center mb-10">
             Latest Jobs
           </h2>
           {isNewestJobsLoading ? (

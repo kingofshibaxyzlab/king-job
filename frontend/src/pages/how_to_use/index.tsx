@@ -8,20 +8,21 @@ const HowToUsePage: React.FC = () => {
 
       <main className="container mx-auto py-16 px-6 md:px-20">
         <h2 className="text-5xl font-bold text-blue-800 mb-12 text-center">
-          How to Use King Job
+          How to Use ShibaWork 🦊
         </h2>
 
         {/* Getting Started Section */}
         <section className="bg-white p-10 rounded-xl shadow-lg mb-16">
-          <h3 className="text-3xl font-bold text-blue-700 mb-6">
+          <h3 className="text-xl font-bold text-blue-700 mb-6">
             Getting Started
           </h3>
           <p className="text-lg text-gray-700 leading-relaxed mb-6">
-            King Job connects clients and freelancers in a seamless Web3-powered
-            platform. To get started, you need to connect your wallet. Click on
-            the <strong>"Connect Wallet"</strong> button at the top of the page.
+            ShibaWork 🦊 connects clients and freelancers in a seamless
+            Web3-powered platform. To get started, you need to connect your
+            wallet. Click on the <strong>"Connect Wallet"</strong> button at the
+            top of the page.
           </p>
-          <h4 className="text-2xl font-semibold text-blue-600 mb-4">
+          <h4 className="text-xl font-semibold text-blue-600 mb-4">
             How to Connect Your Wallet
           </h4>
           <ol className="list-decimal list-inside mb-6 text-gray-700">
@@ -41,7 +42,7 @@ const HowToUsePage: React.FC = () => {
 
         {/* Creating a Job Section */}
         <section className="bg-white p-10 rounded-xl shadow-lg mb-16">
-          <h3 className="text-3xl font-bold text-blue-700 mb-6">
+          <h3 className="text-xl font-bold text-blue-700 mb-6">
             Creating a Job
           </h3>
           <ol className="list-decimal list-inside text-gray-700">
@@ -77,7 +78,7 @@ const HowToUsePage: React.FC = () => {
 
         {/* Picking a Job Section */}
         <section className="bg-white p-10 rounded-xl shadow-lg mb-16">
-          <h3 className="text-3xl font-bold text-blue-700 mb-6">
+          <h3 className="text-xl font-bold text-blue-700 mb-6">
             Picking a Job
           </h3>
           <ol className="list-decimal list-inside text-gray-700">
@@ -104,7 +105,7 @@ const HowToUsePage: React.FC = () => {
 
         {/* Completing a Job Section */}
         <section className="bg-white p-10 rounded-xl shadow-lg mb-16">
-          <h3 className="text-3xl font-bold text-blue-700 mb-6">
+          <h3 className="text-xl font-bold text-blue-700 mb-6">
             Completing a Job
           </h3>
           <ol className="list-decimal list-inside text-gray-700">
@@ -126,7 +127,7 @@ const HowToUsePage: React.FC = () => {
 
         {/* Tracking Jobs Section */}
         <section className="bg-white p-10 rounded-xl shadow-lg">
-          <h3 className="text-3xl font-bold text-blue-700 mb-6">
+          <h3 className="text-xl font-bold text-blue-700 mb-6">
             Tracking Jobs
           </h3>
           <ol className="list-decimal list-inside text-gray-700">
@@ -144,8 +145,8 @@ const HowToUsePage: React.FC = () => {
             </li>
           </ol>
           <p className="text-lg text-gray-700 leading-relaxed mt-4">
-            With transparency and security at its core, King Job ensures trust
-            between clients and freelancers throughout the process.
+            With transparency and security at its core, ShibaWork 🦊 ensures
+            trust between clients and freelancers throughout the process.
           </p>
         </section>
       </main>
