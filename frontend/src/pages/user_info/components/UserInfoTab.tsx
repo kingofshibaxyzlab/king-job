@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from "react";
 import { useUploadFile } from "@/services/apis/auth";
 import { useUpdateUser, useUserInfo } from "@/services/apis/core";
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const UserInfoTab: React.FC = () => {
-  // --------------------------------------------------------------------------
-  // State & Data Hooks
-  // --------------------------------------------------------------------------
   const { data: userInfo, isLoading: isUserLoading } = useUserInfo();
   const { mutate: updateUser } = useUpdateUser();
   const { mutate: uploadFile, isSuccess: isSuccessUploadAvatar } =
@@ -23,9 +21,6 @@ const UserInfoTab: React.FC = () => {
     instagram: "",
   });
 
-  // --------------------------------------------------------------------------
-  // Populate Form Data when UserInfo is Available
-  // --------------------------------------------------------------------------
   useEffect(() => {
     if (userInfo) {
       setFormData({
@@ -42,9 +37,6 @@ const UserInfoTab: React.FC = () => {
     }
   }, [userInfo]);
 
-  // --------------------------------------------------------------------------
-  // Event Handlers
-  // --------------------------------------------------------------------------
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -65,7 +57,7 @@ const UserInfoTab: React.FC = () => {
           }));
         },
         onError: (error: any) => {
-          alert(`Error uploading avatar: ${error.message}`);
+          toast.error(`Error uploading avatar: ${error.message}`);
         },
       });
     }
@@ -85,27 +77,21 @@ const UserInfoTab: React.FC = () => {
     };
     updateUser(updatedUser, {
       onSuccess: () => {
-        alert("User information updated successfully!");
+        toast.success("User information updated successfully!");
       },
       onError: (error: any) => {
-        alert(`Error updating user info: ${error.message}`);
+        toast.error(`Error updating user info: ${error.message}`);
       },
     });
   };
 
-  // --------------------------------------------------------------------------
-  // Loading State
-  // --------------------------------------------------------------------------
   if (isUserLoading) {
     return <div className="text-center py-8">Loading user info...</div>;
   }
 
-  // --------------------------------------------------------------------------
-  // Main Render
-  // --------------------------------------------------------------------------
   return (
     <div className="bg-white p-6 sm:p-8 rounded-3xl shadow-2xl">
-      <h2 className="text-xl sm:text-2xl font-extrabold text-blue-800 mb-6 text-center">
+      <h2 className="text-xl sm:text-xl font-extrabold text-blue-800 mb-6 text-center">
         Hi, {formData.name}
       </h2>
       <form onSubmit={handleSubmit}>

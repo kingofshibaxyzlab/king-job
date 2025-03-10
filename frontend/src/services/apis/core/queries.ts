@@ -27,6 +27,7 @@ import {
   IUserInfoProfileSchema,
   IUserResume,
   IUserUpdatePayload,
+  PaginatedJobResponse,
 } from "./types";
 
 export const useUserInfo = createQuery<IUserInfo>({
@@ -44,7 +45,7 @@ export const useJobTypes = createQuery<IJobType[]>({
   refetchInterval: 1000 * 3,
 });
 
-export const useJobs = createQuery<IJob[], IGetJobsOptions>({
+export const useJobs = createQuery<PaginatedJobResponse, IGetJobsOptions>({
   queryKey: ["useJobs"],
   fetcher: (options) => getJobs(options),
   refetchInterval: 1000 * 3,

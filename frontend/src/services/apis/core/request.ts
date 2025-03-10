@@ -10,6 +10,7 @@ import {
   IUserInfoProfileSchema,
   IUserResume,
   IUserUpdatePayload,
+  PaginatedJobResponse,
 } from "./types";
 
 // Fetch user info
@@ -34,14 +35,14 @@ export const getJobTypes = async (): Promise<IJobType[]> => {
 // Fetch the last created job
 export const getJobs = async (
   options: IGetJobsOptions = {}
-): Promise<IJob[]> => {
+): Promise<PaginatedJobResponse> => {
   const params = new URLSearchParams();
 
   if (options.page !== undefined) {
     params.set("page", String(options.page));
   }
-  if (options.page_size !== undefined) {
-    params.set("page_size", String(options.page_size));
+  if (options.per_page !== undefined) {
+    params.set("per_page", String(options.per_page));
   }
   if (options.job_type_id !== undefined) {
     params.set("job_type_id", String(options.job_type_id));
@@ -61,8 +62,7 @@ export const getJobs = async (
 
   const queryString = params.toString();
   const url = queryString ? `/jobs?${queryString}` : "/jobs";
-
-  const response = await api.get<IJob[]>(url);
+  const response = await api.get<PaginatedJobResponse>(url);
   return response.data;
 };
 

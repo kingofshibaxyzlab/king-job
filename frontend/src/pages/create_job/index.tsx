@@ -6,6 +6,7 @@ import { Editor } from "@tinymce/tinymce-react";
 import { parseEther } from "ethers";
 import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 const CreateJobPage: React.FC = () => {
   const {
@@ -32,7 +33,7 @@ const CreateJobPage: React.FC = () => {
         setUploadedImage(`${data.file_url}`);
       },
       onError: (error: any) => {
-        alert(`Error uploading image: ${error.message}`);
+        toast.error(`Error uploading image: ${error.message}`);
       },
     });
   };
@@ -44,13 +45,13 @@ const CreateJobPage: React.FC = () => {
     data.info = infoValue;
     createJob(data, {
       onSuccess: () => {
-        alert("Job created successfully!");
+        toast.success("Job created successfully!");
         reset();
         setUploadedImage("");
         setInfoValue("");
       },
       onError: (error: { message: any }) => {
-        alert(`Error creating job: ${error.message}`);
+        toast.error(`Error creating job: ${error.message}`);
       },
     });
   };
@@ -60,7 +61,7 @@ const CreateJobPage: React.FC = () => {
       <NavigationBar />
       <div className="flex justify-center items-center flex-1 py-16 px-6">
         <div className="bg-white p-10 rounded-xl shadow-lg w-full max-w-3xl">
-          <h2 className="text-4xl font-bold text-blue-800 mb-8 text-center">
+          <h2 className="text-xl font-bold text-blue-800 mb-8 text-center">
             Create a Job
           </h2>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -164,6 +165,7 @@ const CreateJobPage: React.FC = () => {
               </label>
               <input
                 type="number"
+                min={0.00001}
                 step="0.00001"
                 className="w-full mt-2 px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
                 placeholder="Enter payment amount"

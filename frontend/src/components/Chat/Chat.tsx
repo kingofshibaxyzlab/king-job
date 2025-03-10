@@ -1,7 +1,8 @@
-import React, { useState, useRef, useEffect } from "react";
-import { FiSend, FiLoader, FiSmile, FiPaperclip } from "react-icons/fi";
-import { formatDistanceToNow } from "date-fns";
 import { useUploadFile } from "@/services/apis/auth";
+import { formatDistanceToNow } from "date-fns";
+import React, { useEffect, useRef, useState } from "react";
+import { FiLoader, FiPaperclip, FiSend, FiSmile } from "react-icons/fi";
+import { toast } from "react-toastify";
 
 interface ChatMessage {
   id?: number;
@@ -15,7 +16,8 @@ interface ChatProps {
   messages: ChatMessage[];
   currentUserAddress: string;
   onSendMessage: (message: string) => void;
-  isLoading?: boolean;
+  isSendingMessage?: boolean;
+  isLoadingMessage?: boolean;
   className?: string;
 }
 
@@ -81,12 +83,15 @@ const Chat: React.FC<ChatProps> = ({
   messages,
   currentUserAddress,
   onSendMessage,
-  isLoading = false,
+  isSendingMessage = false,
+  isLoadingMessage = false,
   className = "",
 }) => {
   const [newMessage, setNewMessage] = useState("");
   const [showStickers, setShowStickers] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  // Track if initial messages have been loaded
+  const [hasLoaded, setHasLoaded] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -99,6 +104,9 @@ const Chat: React.FC<ChatProps> = ({
   };
 
   useEffect(() => {
+    if (messages.length > 0) {
+      setHasLoaded(true);
+    }
     scrollToBottom();
   }, [messages]);
 
@@ -108,15 +116,6 @@ const Chat: React.FC<ChatProps> = ({
     onSendMessage(message);
     setNewMessage("");
     setShowStickers(false);
-  };
-
-  const formatMessageTime = (timestamp?: string) => {
-    if (!timestamp) return "";
-    return formatDistanceToNow(new Date(timestamp), { addSuffix: true });
-  };
-
-  const handleSendText = () => {
-    handleSend(newMessage);
   };
 
   const handleIconClick = (iconId: string) => {
@@ -143,7 +142,7 @@ const Chat: React.FC<ChatProps> = ({
       },
       onError: (error: any) => {
         setIsUploading(false);
-        alert(`Error uploading file: ${error.message}`);
+        toast.error(`Error uploading file: ${error.message}`);
       },
     });
   };
@@ -215,14 +214,19 @@ const Chat: React.FC<ChatProps> = ({
       {/* Messages Container */}
       <div
         ref={chatContainerRef}
-        className="flex-grow overflow-y-auto p-3 sm:p-4 space-y-4 max-h-[50vh]"
+        className="flex-grow overflow-y-auto p-3 sm:p-4 space-y-4 max-h-[50vh] min-h-80"
         style={{
           backgroundImage:
             "radial-gradient(circle at center, #f0f4f8 2px, transparent 2px)",
           backgroundSize: "24px 24px",
         }}
       >
-        {messages.length === 0 ? (
+        {!hasLoaded && isLoadingMessage ? (
+          <div className="flex items-center justify-center h-full text-gray-500 text-sm">
+            <FiLoader className="w-5 h-5 animate-spin mr-2" />
+            Loading messages...
+          </div>
+        ) : messages.length === 0 ? (
           <div className="flex items-center justify-center h-full text-gray-500 text-sm">
             No messages yet. Start the conversation!
           </div>
@@ -253,7 +257,9 @@ const Chat: React.FC<ChatProps> = ({
                           isCurrentUser ? "text-blue-100" : "text-gray-500"
                         }`}
                       >
-                        {formatMessageTime(msg.created_at)}
+                        {formatDistanceToNow(new Date(msg.created_at), {
+                          addSuffix: true,
+                        })}
                       </span>
                     )}
                   </div>
@@ -276,9 +282,9 @@ const Chat: React.FC<ChatProps> = ({
           <div className="flex items-center gap-2">
             <button
               onClick={() => setShowStickers((prev) => !prev)}
-              disabled={isLoading}
+              disabled={isSendingMessage}
               className={`px-2 py-1 rounded-md border text-sm flex items-center justify-center ${
-                isLoading
+                isSendingMessage
                   ? "bg-gray-200 cursor-not-allowed text-gray-400"
                   : "bg-gray-100 hover:bg-gray-200 text-gray-700"
               }`}
@@ -288,9 +294,9 @@ const Chat: React.FC<ChatProps> = ({
             </button>
             <button
               onClick={handleAttachClick}
-              disabled={isLoading || isUploading}
+              disabled={isSendingMessage || isUploading}
               className={`px-2 py-1 rounded-md border text-sm flex items-center justify-center ${
-                isLoading || isUploading
+                isSendingMessage || isUploading
                   ? "bg-gray-200 cursor-not-allowed text-gray-400"
                   : "bg-gray-100 hover:bg-gray-200 text-gray-700"
               }`}
@@ -331,9 +337,9 @@ const Chat: React.FC<ChatProps> = ({
               {/* Like Button */}
               <button
                 onClick={() => handleSend("ICON_THUMBS_UP")}
-                disabled={isLoading}
+                disabled={isSendingMessage}
                 className={`px-2 py-1 rounded-full border text-sm flex items-center justify-center ${
-                  isLoading
+                  isSendingMessage
                     ? "bg-gray-200 cursor-not-allowed text-gray-400"
                     : "bg-gray-100 hover:bg-gray-200 text-gray-700"
                 }`}
@@ -346,15 +352,15 @@ const Chat: React.FC<ChatProps> = ({
               {/* Send Button */}
               <button
                 onClick={() => handleSend(newMessage)}
-                disabled={!newMessage.trim() || isLoading}
+                disabled={!newMessage.trim() || isSendingMessage}
                 className={`px-2 py-1 rounded-md border text-sm flex items-center justify-center ${
-                  newMessage.trim() && !isLoading
+                  newMessage.trim() && !isSendingMessage
                     ? "text-blue-500 hover:bg-blue-50"
                     : "text-gray-400"
                 }`}
                 title="Send Message"
               >
-                {isLoading ? (
+                {isSendingMessage ? (
                   <FiLoader className="w-5 h-5 animate-spin" />
                 ) : (
                   <FiSend className="w-5 h-5" />

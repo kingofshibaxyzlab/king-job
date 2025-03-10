@@ -28,26 +28,26 @@ const HomePage: React.FC = () => {
         <div className="container mx-auto flex flex-col lg:flex-row items-center gap-12 px-5 lg:px-16">
           {/* Left Column - Intro Text */}
           <div className="lg:w-1/2">
-            <h1 className="text-5xl md:text-6xl font-extrabold mb-6 leading-tight text-center">
+            <h1 className="text-5xl md:text-6xl font-extrabold mb-6 leading-tight text-center lg:text-left">
               Discover & Hire <br /> Top Freelancers
             </h1>
-            <p className="mb-8 text-lg text-center">
+            <p className="mb-8 text-lg text-center lg:text-left">
               Connect with talented professionals and explore the latest job
               opportunities.
             </p>
-            {!isAuthenticated ? (
-              <div className="w-full flex justify-center items-center">
+            {!isAuthenticated && (
+              <div className="w-full flex justify-center lg:justify-start">
                 <button
-                  className="bg-yellow-400 text-blue-800 py-3 px-8 rounded-full font-semibold shadow-md hover:bg-yellow-500 hover:shadow-lg transition-all duration-300"
+                  className="bg-yellow-400 text-blue-800 py-3 px-8 rounded-full font-semibold shadow-md hover:bg-yellow-500 hover:shadow-xl transition-all duration-300"
                   onClick={openConnectModal}
                 >
                   Connect Wallet
                 </button>
               </div>
-            ) : null}
+            )}
           </div>
 
-          {/* Right Column - Larger Image */}
+          {/* Right Column - Illustration */}
           <div className="lg:w-1/2 flex justify-center items-center lg:justify-end">
             <img
               src="/banner.png"
@@ -61,7 +61,7 @@ const HomePage: React.FC = () => {
       {/* Top Freelancers */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-5 lg:px-16">
-          <h2 className="text-xl md:text-4xl font-bold text-gray-800 text-center mb-10">
+          <h2 className="text-xl md:text-xl font-bold text-gray-800 text-center mb-12">
             Our Top Freelancers
           </h2>
           {isFreelancersLoading ? (
@@ -77,7 +77,7 @@ const HomePage: React.FC = () => {
               {topFreelancers?.map((freelancer) => (
                 <div
                   key={freelancer.id}
-                  className="bg-white rounded-lg shadow-md hover:shadow-lg p-6 flex items-center cursor-pointer transition-shadow duration-300"
+                  className="bg-white rounded-xl shadow-lg hover:shadow-2xl p-6 flex items-center cursor-pointer transform hover:-translate-y-1 transition-all duration-300 border border-gray-200"
                   onClick={() =>
                     navigate(
                       `${UrlMapping.resume}/${freelancer.wallet_address}`
@@ -85,7 +85,7 @@ const HomePage: React.FC = () => {
                   }
                 >
                   {/* Avatar */}
-                  <div className="w-16 h-16 rounded-full bg-purple-500 text-white flex items-center justify-center font-bold text-xl mr-5 shadow-md">
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-r from-purple-500 to-indigo-500 text-white flex items-center justify-center font-bold text-xl mr-5 shadow-md">
                     {freelancer.name?.charAt(0) ||
                       freelancer.username?.charAt(0) ||
                       "F"}
@@ -109,7 +109,7 @@ const HomePage: React.FC = () => {
       {/* Newest Jobs */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-5 lg:px-16">
-          <h2 className="text-xl md:text-4xl font-bold text-gray-800 text-center mb-10">
+          <h2 className="text-xl md:text-xl font-bold text-gray-800 text-center mb-12">
             Latest Jobs
           </h2>
           {isNewestJobsLoading ? (
@@ -126,17 +126,17 @@ const HomePage: React.FC = () => {
                 <div
                   key={job.id}
                   onClick={() => navigate(`${UrlMapping.detail}/${job.id}`)}
-                  className="bg-gray-50 rounded-lg shadow-md hover:shadow-lg overflow-hidden transition-shadow duration-300 flex flex-col cursor-pointer"
+                  className="bg-gray-50 rounded-xl shadow-lg hover:shadow-2xl overflow-hidden transition-all duration-300 flex flex-col cursor-pointer border border-gray-200"
                 >
-                  {/* Job image */}
+                  {/* Job Image */}
                   <img
                     src={job.image || "https://placehold.co/600x400"}
                     alt={job.title}
                     className="w-full h-48 object-cover"
                   />
-                  {/* Job info */}
-                  <div className="p-5 flex flex-col flex-grow">
-                    <h3 className="text-xl font-bold text-gray-700 mb-2">
+                  {/* Job Info */}
+                  <div className="p-6 flex flex-col flex-grow">
+                    <h3 className="text-xl font-bold text-gray-700 mb-3">
                       {job.title}
                     </h3>
                     <p className="text-sm text-gray-600 flex-grow">

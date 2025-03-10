@@ -31,7 +31,7 @@ const UserInfoPage: React.FC = () => {
   return (
     <div className="bg-gradient-to-b from-blue-50 to-gray-50 min-h-screen">
       <NavigationBar />
-      <div className="container mx-auto max-w-6xl p-6 mt-10">
+      <div className="container mx-auto max-w-6xl p-2 md:p-6 mt-10">
         <div className="flex flex-col md:flex-row">
           {/* Left Sidebar / Tab Menu */}
           <div className="w-full md:w-1/4 mb-4 md:mb-0">

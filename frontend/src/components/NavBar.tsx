@@ -7,6 +7,7 @@ import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useEffect, useState } from "react";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { useAccount, useDisconnect } from "wagmi";
 
 const NavigationBar = () => {
@@ -39,7 +40,7 @@ const NavigationBar = () => {
   }, []);
 
   useEffect(() => {
-    if (isConnected && address) {
+    if (isConnected && address && !isAuthenticated) {
       loginMutate(
         { wallet_address: address },
         {
@@ -47,18 +48,18 @@ const NavigationBar = () => {
             try {
               login(data);
             } catch (error) {
-              alert("Error setting authentication.");
+              toast.error("Error setting authentication.");
             }
           },
           onError: (error) => {
-            alert(`Login failed: ${error.message}`);
+            toast.error(`Login failed: ${error.message}`);
           },
         }
       );
-    } else {
+    } else if (!isConnected && !address) {
       logout();
     }
-  }, [isConnected, address, loginMutate, logout, login]);
+  }, [isConnected, address, loginMutate, logout, login, isAuthenticated]);
 
   return (
     <header
@@ -119,7 +120,7 @@ const NavigationBar = () => {
               : "hidden lg:flex lg:space-x-6"
           } items-center`}
         >
-          {isConnected ? (
+          {isConnected && isAuthenticated ? (
             <div className="flex flex-col lg:flex-row items-center space-y-4 lg:space-y-0 lg:space-x-4 w-full">
               <Link
                 to={UrlMapping.create || "#"}

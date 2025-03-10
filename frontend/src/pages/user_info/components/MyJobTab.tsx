@@ -44,19 +44,18 @@ const MyJobTab: React.FC = () => {
 
   const renderJobCard = (job: any) => {
     const isPushLoading = isLoading && job.id === currentJobId;
-    // Button disabled when loading or job status is not NEW
     const canPushOnchain = job.status === JobStatus.NEW && !isLoading;
 
     return (
       <div
         key={job.id}
-        className="p-6 border rounded-lg shadow-lg bg-gray-50 hover:bg-white transition-colors duration-300 min-w-fit"
+        className="p-2 md:p-6 border rounded-lg shadow-lg bg-gray-50 hover:bg-white transition-colors duration-300 min-w-fit"
       >
         <div className="flex flex-col md:flex-row items-center md:space-x-6">
           <img
             src={job.image || "https://via.placeholder.com/150"}
             alt={job.title}
-            className="w-24 h-24 object-cover rounded-lg mb-4 md:mb-0"
+            className="w-full h-auto md:w-24 md:h-24 object-cover rounded-lg mb-4 md:mb-0"
           />
           <div className="flex-1 w-full">
             <div className="flex items-center justify-between">
@@ -132,7 +131,7 @@ const MyJobTab: React.FC = () => {
   };
 
   return (
-    <div className="bg-white p-6 rounded-3xl shadow-2xl">
+    <div className="bg-white p-2 md:p-6 rounded-3xl shadow-2xl">
       <h2 className="mb-6 text-center text-xl font-extrabold text-blue-800">
         My Jobs
       </h2>

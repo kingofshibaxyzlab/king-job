@@ -17,6 +17,7 @@ import { shortenTransactionHash } from "@/utils/transaction_string";
 import React, { useEffect, useState } from "react";
 import { FiX } from "react-icons/fi";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const JobPickersPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -44,14 +45,17 @@ const JobPickersPage: React.FC = () => {
   // Auth and Chat hooks
   const { getWalletAddress } = useAuthStore();
   const walletAddress = getWalletAddress();
-  const { data: chatMessages, refetch: refetchChatMessages } =
-    useFetchChatMessages({
-      variables: {
-        jobId,
-        userA: selectedPicker?.wallet_address,
-        userB: walletAddress,
-      },
-    });
+  const {
+    data: chatMessages,
+    refetch: refetchChatMessages,
+    isFetching: isFetchingChatMessages,
+  } = useFetchChatMessages({
+    variables: {
+      jobId,
+      userA: selectedPicker?.wallet_address,
+      userB: walletAddress,
+    },
+  });
   const { mutate: sendMessage, isPending: isSendingMessage } =
     useSendChatMessage();
 
@@ -72,7 +76,7 @@ const JobPickersPage: React.FC = () => {
       },
       {
         onSuccess: () => refetchChatMessages(),
-        onError: () => alert("Failed to send message."),
+        onError: () => toast.error("Failed to send message."),
       }
     );
   };
@@ -136,7 +140,7 @@ const JobPickersPage: React.FC = () => {
       <div className="container mx-auto max-w-6xl py-10 px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row md:space-x-8 space-y-8 md:space-y-0 min-h-[90vh]">
         {/* Left Sidebar: List of Pickers */}
         <div className="w-full md:w-1/3 bg-white shadow-md rounded-lg p-6 overflow-auto min-h-[90vh]">
-          <h3 className="text-2xl font-bold text-blue-800 mb-6">Job Pickers</h3>
+          <h3 className="text-xl font-bold text-blue-800 mb-6">Job Pickers</h3>
           {arePickersLoading ? (
             <p className="text-gray-600">Loading pickers...</p>
           ) : pickers && pickers.length > 0 ? (
@@ -245,7 +249,8 @@ const JobPickersPage: React.FC = () => {
                 messages={chatMessages || []}
                 currentUserAddress={walletAddress}
                 onSendMessage={handleSendMessage}
-                isLoading={isSendingMessage}
+                isLoadingMessage={isFetchingChatMessages}
+                isSendingMessage={isSendingMessage}
                 className="flex-grow"
               />
             </>
@@ -274,7 +279,8 @@ const JobPickersPage: React.FC = () => {
               messages={chatMessages || []}
               currentUserAddress={walletAddress}
               onSendMessage={handleSendMessage}
-              isLoading={isSendingMessage}
+              isLoadingMessage={isFetchingChatMessages}
+              isSendingMessage={isSendingMessage}
             />
           </div>
         </div>

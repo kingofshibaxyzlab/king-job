@@ -53,7 +53,7 @@ const ResumePage: React.FC = () => {
             className="w-24 h-24 sm:w-32 sm:h-32 rounded-full border-2 border-blue-500"
           />
           <div className="text-center sm:text-left">
-            <h1 className="text-3xl sm:text-4xl font-bold text-gray-800">
+            <h1 className="text-xl sm:text-xl font-bold text-gray-800">
               {userInfo.name || "Anonymous"}
             </h1>
             <p className="text-gray-500">{userInfo.username}</p>

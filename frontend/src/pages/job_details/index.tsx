@@ -6,6 +6,7 @@ import { formatDistanceToNow } from "date-fns";
 import { formatEther } from "ethers";
 import React from "react";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import TransactionSequence from "./components/TransactionSequence";
 
 const JobDetailsPage: React.FC = () => {
@@ -25,10 +26,10 @@ const JobDetailsPage: React.FC = () => {
       { jobId: Number(id) },
       {
         onSuccess: (message) => {
-          alert(message); // Show success message
+          toast.success(message); // Show success message
         },
         onError: (error: any) => {
-          alert(
+          toast.error(
             error.response?.data?.detail || "Failed to pick the job. Try again."
           );
         },

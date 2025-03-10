@@ -98,7 +98,7 @@ export interface IChatMessage {
 
 export interface IGetJobsOptions {
   page?: number;
-  page_size?: number;
+  per_page?: number;
   job_type_id?: number;
   min_amount?: number;
   max_amount?: number;
@@ -106,6 +106,15 @@ export interface IGetJobsOptions {
   status?: string;
 }
 
+export interface PaginatedJobResponse {
+  data: IJob[];
+  page: number;
+  page_size: number;
+  total_pages: number;
+  total_items: number;
+  has_next: boolean;
+  has_previous: boolean;
+}
 export interface ICompletedProject {
   id: number;
   title: string;

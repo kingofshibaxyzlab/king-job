@@ -29,13 +29,13 @@ const FindJobTab: React.FC = () => {
   const renderJobCard = (job: any) => (
     <div
       key={job.id}
-      className="p-6 border rounded-lg shadow-lg bg-gray-50 hover:bg-white transition ease-in-out duration-300"
+      className="p-2 md:p-6 border rounded-lg shadow-lg bg-gray-50 hover:bg-white transition ease-in-out duration-300"
     >
       <div className="flex flex-col md:flex-row items-center md:space-x-6">
         <img
           src={job.image || "https://via.placeholder.com/150"}
           alt={job.title}
-          className="w-24 h-24 object-cover rounded-lg mb-4 md:mb-0"
+          className="w-full h-auto md:w-24 md:h-24 object-cover rounded-lg mb-4 md:mb-0"
         />
         <div className="flex-1 w-full">
           <div className="flex flex-col sm:flex-row items-center justify-between">
@@ -83,7 +83,7 @@ const FindJobTab: React.FC = () => {
   );
 
   return (
-    <div className="bg-white p-6 rounded-3xl shadow-2xl">
+    <div className="bg-white p-2 md:p-6 rounded-3xl shadow-2xl">
       <h2 className="mb-6 text-center text-xl font-extrabold text-blue-800">
         Find Jobs
       </h2>

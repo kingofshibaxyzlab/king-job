@@ -14,6 +14,7 @@ import React, { useState } from "react";
 import { FiMessageSquare, FiX } from "react-icons/fi";
 import { useParams } from "react-router-dom";
 import TransactionSequence from "../job_details/components/TransactionSequence";
+import { toast } from "react-toastify";
 
 const JobFoundPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -26,14 +27,17 @@ const JobFoundPage: React.FC = () => {
   const { getWalletAddress } = useAuthStore();
   const walletAddress = getWalletAddress();
 
-  const { data: chatMessages, refetch: refetchChatMessages } =
-    useFetchChatMessages({
-      variables: {
-        jobId: Number(id),
-        userA: job?.client?.wallet_address || "",
-        userB: walletAddress,
-      },
-    });
+  const {
+    data: chatMessages,
+    refetch: refetchChatMessages,
+    isFetching: isFetchingChatMessages,
+  } = useFetchChatMessages({
+    variables: {
+      jobId: Number(id),
+      userA: job?.client?.wallet_address || "",
+      userB: walletAddress,
+    },
+  });
 
   const { mutate: sendMessage, isPending: isSendingMessage } =
     useSendChatMessage();
@@ -51,7 +55,7 @@ const JobFoundPage: React.FC = () => {
           refetchChatMessages();
         },
         onError: () => {
-          alert("Failed to send message.");
+          toast.error("Failed to send message.");
         },
       }
     );
@@ -91,7 +95,7 @@ const JobFoundPage: React.FC = () => {
       <main className="container mx-auto py-10 px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row md:space-x-8 space-y-8 md:space-y-0 min-h-[90vh]">
         {/* Left Panel: Job Info */}
         <div className="w-full md:w-1/2 bg-white rounded-xl p-8 shadow-md">
-          <h2 className="text-4xl font-bold text-blue-800 mb-4">{job.title}</h2>
+          <h2 className="text-xl font-bold text-blue-800 mb-4">{job.title}</h2>
           <b className="text-sm text-gray-600 mb-4">
             Posted by: {job.client?.username || "Unknown"}
           </b>
@@ -153,7 +157,8 @@ const JobFoundPage: React.FC = () => {
             messages={chatMessages || []}
             currentUserAddress={walletAddress}
             onSendMessage={handleSendMessage}
-            isLoading={isSendingMessage}
+            isLoadingMessage={isFetchingChatMessages}
+            isSendingMessage={isSendingMessage}
           />
         </div>
       </main>
@@ -185,7 +190,8 @@ const JobFoundPage: React.FC = () => {
               messages={chatMessages || []}
               currentUserAddress={walletAddress}
               onSendMessage={handleSendMessage}
-              isLoading={isSendingMessage}
+              isLoadingMessage={isFetchingChatMessages}
+              isSendingMessage={isSendingMessage}
             />
           </div>
         </div>
