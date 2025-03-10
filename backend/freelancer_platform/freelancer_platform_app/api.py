@@ -1,3 +1,4 @@
+from math import ceil
 import os
 import uuid
 from datetime import datetime, timedelta
@@ -5,12 +6,9 @@ from typing import Optional
 
 import jwt
 from django.conf import settings
-from django.core.files.storage import default_storage
 from django.db.models import Count, Q, Sum
-from django.http import FileResponse
 from ninja import NinjaAPI, File, Query
 from ninja.errors import HttpError
-from ninja.files import UploadedFile as NinjaUploadedFile
 
 from .models import ChatMessage, WebThreeUser, Job, JobPick, JobType
 from .schemas import (
@@ -29,6 +27,7 @@ from .schemas import (
     UserInfoProfileSchema,
     UserInfoSchema,
     UserUpdateSchema,
+    ResponsePaginationSchema
 )
 from .storage import generate_presigned_post, generate_presigned_get_url
 
@@ -166,16 +165,18 @@ def create_job(request, payload: CreateJobSchema):
     )
     return job
 
-@api.get("/jobs", tags=["Jobs"], response=list[JobSchema])
+@api.get("/jobs", tags=["Jobs"], response={200: ResponsePaginationSchema[JobSchema]})
 def get_jobs(
     request,
     job_type_id: Optional[int] = Query(None),
     min_amount: Optional[int] = Query(None),
     max_amount: Optional[int] = Query(None),
     search: Optional[str] = Query(None),
-    status: Optional[str] = Query(None)
+    status: Optional[str] = Query(None),
+    page: int = Query(1, gt=0),
+    per_page: int = Query(10, gt=0),
 ):
-    jobs = Job.objects.select_related('job_type', 'client', 'freelancer').order_by("-created_at")
+    jobs_qs = Job.objects.select_related("job_type", "client", "freelancer").order_by("-created_at")
     filters = Q()
 
     if job_type_id is not None:
@@ -190,9 +191,23 @@ def get_jobs(
         filters &= Q(title__icontains=search) | Q(description__icontains=search)
 
     if filters:
-        jobs = jobs.filter(filters)
+        jobs_qs = jobs_qs.filter(filters)
 
-    return jobs
+    total_items = jobs_qs.count()
+    offset = (page - 1) * per_page
+    paginated_jobs = jobs_qs[offset : offset + per_page]
+    total_pages = ceil(total_items / per_page) if per_page else 1
+
+    response_data = ResponsePaginationSchema[JobSchema](
+        data=list(paginated_jobs),
+        page=page,
+        page_size=per_page,
+        total_pages=total_pages,
+        total_items=total_items,
+        has_next=page < total_pages,
+        has_previous=page > 1,
+    )
+    return response_data
 
 @api.get("/jobs/by-client", tags=["Jobs"], response=list[JobSchema])
 def jobs_by_client(request):

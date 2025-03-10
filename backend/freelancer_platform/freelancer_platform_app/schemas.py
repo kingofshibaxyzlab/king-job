@@ -1,8 +1,9 @@
-from typing import Optional
+from typing import Generic, Optional, TypeVar
 from ninja import Schema
 from decimal import Decimal
 import datetime
 from typing import List
+T = TypeVar("T")
 
 class UserInfoSchema(Schema):
     id: int
@@ -76,6 +77,15 @@ class JobSchema(Schema):
     transaction_create : Optional[str] = None
     transaction_accept_job : Optional[str] = None
     transaction_complete_job : Optional[str]= None
+    
+class ResponsePaginationSchema(Schema, Generic[T]):
+    data: List[T]
+    page: int
+    page_size: int
+    total_pages: int
+    total_items: int
+    has_next: bool
+    has_previous: bool
     
 class CreateJobSchema(Schema):
     title: str
